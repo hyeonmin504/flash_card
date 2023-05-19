@@ -122,6 +122,7 @@
         android:textSize="25dp"
         android:visibility="invisible"
         />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,65 +130,57 @@
         android:orientation="horizontal"
         android:gravity="bottom">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+        <Button
+            android:id="@+id/btn_madecard"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="퀴즈학습"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"
+            />
 
-            <Button
-                android:id="@+id/btn_madecard"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:background="#C2E5C1"
-                android:text="퀴즈학습"
-                android:textSize="17dp"
-                android:layout_margin="1px"
-                android:layout_weight = "1"
-                />
+        <Button
+            android:id="@+id/btn_playcard"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="퀴즈 게임"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "2"/>
 
-            <Button
-                android:id="@+id/btn_playcard"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:background="#C2E5C1"
-                android:text="퀴즈 게임"
-                android:textSize="17dp"
-                android:layout_margin="1px"
-                android:layout_weight = "2"/>
-
-            <Button
-                android:id="@+id/btn_review"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:background="#C2E5C1"
-                android:text="복습하기"
-                android:textSize="17dp"
-                android:layout_margin="1px"
-                android:layout_weight = "1"/>
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="복습하기"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
 
 
-            <Button
-                android:id="@+id/btn_statistics"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:background="#C2E5C1"
-                android:text="오답 확인"
-                android:textSize="17dp"
-                android:layout_margin="1px"
-                android:layout_weight = "1"/>
+        <Button
+            android:id="@+id/btn_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="오답 확인"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
 
-            <Button
-                android:id="@+id/btn_attendance"
-                android:layout_width="wrap_content"
-                android:layout_height="65dp"
-                android:background="#C2E5C1"
-                android:text="출석 체크"
-                android:textSize="17dp"
-                android:layout_margin="1px"
-                android:layout_weight = "1"/>
-
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="출석 체크"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
 
     </LinearLayout>
 </LinearLayout>

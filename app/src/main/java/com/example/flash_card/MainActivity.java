@@ -1,31 +1,30 @@
 package com.example.flash_card;
 
-import static com.example.flash_card.R.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button btn_madecard;
-    Button btn_playcard;
-    Button btn_review;
-    Button btn_statistics;
-    Button btn_attendance;
+    ImageButton btn_madecard;
+    ImageButton btn_playcard;
+    ImageButton btn_review;
+    ImageButton btn_statistics;
+    ImageButton btn_attendance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        btn_madecard = (Button)findViewById(R.id.btn_madecard);
-        btn_playcard = (Button)findViewById(R.id.btn_playcard);
-        btn_review = (Button)findViewById(R.id.btn_review);
-        btn_statistics = (Button)findViewById(R.id.btn_statistics);
-        btn_attendance =(Button)findViewById(R.id.btn_attendance);
+        btn_madecard = findViewById(R.id.btn_madecard);
+        btn_playcard = findViewById(R.id.btn_playcard);
+        btn_review = findViewById(R.id.btn_review);
+        btn_statistics = findViewById(R.id.btn_statistics);
+        btn_attendance = findViewById(R.id.btn_attendance);
 
         btn_madecard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,5 +62,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 }
