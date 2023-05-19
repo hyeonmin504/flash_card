@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,15 +20,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Attendance extends AppCompatActivity {
     Button btn_attend;
     CalendarView calView;
     TextView tvYear, tvMonth, tvDay;
-    TextView tv_ox;
     int selectYear = 0;
     int selectMonth = 0;
     int selectDay = 0;
@@ -33,13 +38,11 @@ public class Attendance extends AppCompatActivity {
     Button btn_review;
     Button btn_statistics;
     Button btn_attendance;
+    ListView attendanceListView;
 
     // 파일 이름과 내용을 정의
     String directoryName = "flash_card";
     String fileName = "attendance.txt";
-    String filePath = "C:\\Users\\kim hyeon min\\AppData\\Local\\Google\\AndroidStudio2022.1\\device-explorer\\Pixel_2_API_33 [emulator-5554]\\data\\data\\com.example.flash_card"; // 원하는 파일 경로로 수정
-
-    File file = new File(filePath);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,31 +62,35 @@ public class Attendance extends AppCompatActivity {
         tvYear = (TextView) findViewById(R.id.tvYear);
         tvMonth = (TextView) findViewById(R.id.tvMonth);
         tvDay = (TextView) findViewById(R.id.tvDay);
-        tv_ox = (TextView) findViewById(R.id.tv_ox);
+        attendanceListView = (ListView) findViewById(R.id.attendanceListView);
 
         Calendar calendar = Calendar.getInstance();
         calView.setDate(calendar.getTimeInMillis());
 
         // 현재 시간을 자동으로 불러와서 텍스트뷰에 설정
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy", Locale.getDefault());
-        tvYear.setText(sdf.format(new Date()));
-        sdf.applyPattern("MM");
-        tvMonth.setText(sdf.format(new Date()));
-        sdf.applyPattern("dd");
-        tvDay.setText(sdf.format(new Date()));
+        SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy", Locale.getDefault());
+        tvYear.setText(sdfYear.format(calendar.getTime()));
+        SimpleDateFormat sdfMonth = new SimpleDateFormat("MM", Locale.getDefault());
+        tvMonth.setText(sdfMonth.format(calendar.getTime()));
+        SimpleDateFormat sdfDay = new SimpleDateFormat("dd", Locale.getDefault());
+        tvDay.setText(sdfDay.format(calendar.getTime()));
 
         // 버튼을 클릭하면 날짜,시간을 가져온다.
         btn_attend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String attendanceStatus = "출석"; // 출석 여부 값, 필요에 따라 동적으로 설정할 수 있음
-                tv_ox.setText(attendanceStatus);
+                String attendanceStatus = "출석완료"; // 출석 여부 값, 필요에 따라 동적으로 설정할 수 있음
 
                 // 날짜 설정
                 tvYear.setText(Integer.toString(selectYear));
                 tvMonth.setText(Integer.toString(selectMonth));
                 tvDay.setText(Integer.toString(selectDay));
 
+                String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectYear, selectMonth, selectDay);
+                Log.d("Selected Date", selectedDate);
+
                 saveAttendanceToFile(attendanceStatus);
+                Toast.makeText(Attendance.this, "출석완료", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -131,7 +138,27 @@ public class Attendance extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 저장된 출석 내용을 ListView에 표시
+        List<String> attendanceList = readAttendanceFromFile();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, attendanceList);
+        attendanceListView.setAdapter(adapter);
     }
+
+    private boolean isAttendanceAlreadyExist(String date) {
+        List<String> attendanceList = readAttendanceFromFile();
+        for (String attendance : attendanceList) {
+            String[] attendanceData = attendance.split(" ");
+            if (attendanceData.length >= 2) {
+                String attendanceDate = attendanceData[0];
+                if (attendanceDate.equals(date)) {
+                    return true; // 이미 해당 날짜에 출석한 기록이 있는 경우
+                }
+            }
+        }
+        return false; // 해당 날짜에 출석한 기록이 없는 경우
+    }
+
     private void saveAttendanceToFile(String attendanceStatus) {
         try {
             File directory = new File(getFilesDir(), directoryName);
@@ -139,18 +166,44 @@ public class Attendance extends AppCompatActivity {
                 directory.mkdirs(); // 디렉토리가 없으면 생성
             }
 
+            if (selectYear == 0 || selectMonth == 0 || selectDay == 0) {
+                Toast.makeText(this, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Calendar calendar = Calendar.getInstance();
+            String date = String.format(Locale.getDefault(), "%04d-%02d-%02d",
+                    selectYear, selectMonth, selectDay);
+
+            if (isAttendanceAlreadyExist(date)) {
+                // 이미 해당 날짜에 출석된 경우, 중복 출석 방지 처리
+                String message = date + " 이미 출석 되었습니다.";
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             File file = new File(directory, fileName);
 
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(attendanceStatus.getBytes());
+            FileOutputStream fos = new FileOutputStream(file, true); // append 모드로 파일 열기
+            String entry = date + " " + attendanceStatus + "\n"; // 날짜와 출석 여부를 결합한 문자열 생성
+            fos.write(entry.getBytes());
             fos.close();
+            // 로그를 통해 파일 저장 위치 확인
+            String filePath = file.getAbsolutePath();
+            Log.d("File Location", "Attendance file saved at: " + filePath);
+
+            // 저장된 출석 내용을 ListView에 표시
+            List<String> attendanceList = readAttendanceFromFile();
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, attendanceList);
+            attendanceListView.setAdapter(adapter);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
     // 저장된 출석 여부 파일을 읽어오는 메서드
-    private String readAttendanceFromFile() {
+    private List<String> readAttendanceFromFile() {
+        List<String> attendanceList = new ArrayList<>();
         try {
             File directory = new File(getFilesDir(), directoryName);
             File file = new File(directory, fileName);
@@ -158,16 +211,18 @@ public class Attendance extends AppCompatActivity {
             FileInputStream fis = new FileInputStream(file);
             InputStreamReader isr = new InputStreamReader(fis);
             BufferedReader br = new BufferedReader(isr);
-            StringBuilder sb = new StringBuilder();
             String line;
             while ((line = br.readLine()) != null) {
-                sb.append(line);
+                attendanceList.add(line); // 각 줄을 리스트에 추가
             }
             br.close();
-            return sb.toString();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
+        // attendanceList 로그로 출력
+        for (String attendance : attendanceList) {
+            Log.d("Attendance", attendance);
+        }
+        return attendanceList;
     }
 }

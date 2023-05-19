@@ -84,7 +84,7 @@ public class Review extends AppCompatActivity {
         list2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = data.get(position);
+                String selectedItem = data2.get(position);
                 // 선택된 항목에 대한 동작을 수행
                 Intent intent = new Intent(Review.this, Card.class);
                 intent.putExtra("selectedItem", selectedItem); // 선택된 항목 데이터를 인텐트에 추가

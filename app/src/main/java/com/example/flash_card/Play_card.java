@@ -59,6 +59,7 @@ public class Play_card extends AppCompatActivity {
         data.add("주제 예시 1"); // 삭제 예정
         data.add("주제 예시 2"); // 삭제 예정
         data.add("주제 예시 3"); // 삭제 예정
+
         adapter.notifyDataSetChanged();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

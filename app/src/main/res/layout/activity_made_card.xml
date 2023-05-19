@@ -13,7 +13,7 @@
         android:gravity="center"
         android:paddingTop="20dp"
         android:paddingBottom="20dp"
-        android:text="falsh-card"
+        android:text="Flash-card"
         android:textColor="#000000"
         android:textSize="40dp"
         android:fontFamily="sans-serif"
