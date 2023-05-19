@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="falsh-card"
+        android:textColor="#000000"
+        android:textSize="40dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" >
+
+            <CalendarView
+                android:id="@+id/calendarView1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:showWeekNumber="false"/>
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="출석 여부 :"
+            android:textColor="#000000"
+            android:textSize="25dp" />
+
+        <TextView
+            android:id="@+id/tv_ox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:padding="10px"
+            android:textColor="#000000"
+            android:textSize="19dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="#CCCCCC" >
+
+        <Button
+            android:id="@+id/btn_attend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="출석하기"
+            android:layout_marginLeft="10px"/>
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:text="0000" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="년" />
+
+        <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:text="00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="월" />
+
+        <TextView
+            android:id="@+id/tvDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:text="00" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="일" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+        >
+
+        <Button
+            android:id="@+id/btn_madecard"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="퀴즈학습"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"
+            />
+
+        <Button
+            android:id="@+id/btn_playcard"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="퀴즈 게임"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
+
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="복습하기"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
+
+
+        <Button
+            android:id="@+id/btn_statistics"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="오답 확인"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
+
+        <Button
+            android:id="@+id/btn_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:background="#C2E5C1"
+            android:text="출석 체크"
+            android:textSize="17dp"
+            android:layout_margin="1px"
+            android:layout_weight = "1"/>
+
+    </LinearLayout>
+
+</LinearLayout>

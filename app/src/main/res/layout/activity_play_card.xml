@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="flash-card"
+        android:textColor="#000000"
+        android:textSize="40dp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="주제 목록 선택 >"
+        android:padding="10px"
+        android:textSize="20dp"
+        android:layout_marginLeft="50px"
+        android:textColor="#000000"
+        />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/btn_madecard"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="#C2E5C1"
+            android:text="퀴즈학습"
+            android:textSize="17dp"
+            android:layout_margin="1px" />
+
+        <Button
+            android:id="@+id/btn_playcard"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="#C2E5C1"
+            android:text="퀴즈 게임"
+            android:textSize="17dp"
+            android:layout_margin="1px" />
+
+        <Button
+            android:id="@+id/btn_review"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="#C2E5C1"
+            android:text="복습하기"
+            android:textSize="17dp"
+            android:layout_margin="1px" />
+
+
+        <Button
+            android:id="@+id/btn_statistics"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="#C2E5C1"
+            android:text="오답 확인"
+            android:textSize="17dp"
+            android:layout_margin="1px" />
+
+        <Button
+            android:id="@+id/btn_attendance"
+            android:layout_width="0dp"
+            android:layout_height="65dp"
+            android:layout_weight="1"
+            android:background="#C2E5C1"
+            android:text="출석 체크"
+            android:textSize="17dp"
+            android:layout_margin="1px" />
+
+    </LinearLayout>
+
+</LinearLayout>
