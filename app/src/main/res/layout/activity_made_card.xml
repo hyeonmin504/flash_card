@@ -108,7 +108,7 @@
             android:layout_height="60dp"
             android:layout_marginLeft="15px"
             android:layout_marginRight="15px"
-            android:hint="정답를 입력하세요" />
+            android:hint="정답을 입력하세요" />
 
     </LinearLayout>
 
@@ -119,6 +119,17 @@
         android:layout_margin="15px"
         android:background="#C2E5C1"
         android:text="저장하기"
+        android:textSize="25dp"
+        android:visibility="invisible"
+        />
+
+    <Button
+        android:id="@+id/btn_restart"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:layout_margin="15px"
+        android:background="#C2E5C1"
+        android:text="새로 만들기"
         android:textSize="25dp"
         android:visibility="invisible"
         />
@@ -135,7 +146,7 @@
             android:layout_width="wrap_content"
             android:layout_height="65dp"
             android:background="#C2E5C1"
-            android:text="퀴즈학습"
+            android:text="카드 생성"
             android:textSize="17dp"
             android:layout_margin="1px"
             android:layout_weight = "1"

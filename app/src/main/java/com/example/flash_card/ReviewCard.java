@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Card extends AppCompatActivity {
+public class ReviewCard extends AppCompatActivity {
     TextView textView;
     TextView tv_quest;
     EditText et_answer;
@@ -66,7 +66,7 @@ public class Card extends AppCompatActivity {
 
         textView.setText(selectedItem);
         // 문제와 정답을 가져와서 해당 뷰에 설정
-        ArrayList<String[]> data = dbHelper.getDataFromDatabase(topicId); // 데이터베이스에서 데이터 가져오기
+        ArrayList<String[]> data = dbHelper.getDataFromDatabaseByRate(topicId);// 데이터베이스에서 데이터 가져오기
 
         if (!data.isEmpty()) {
             // 데이터가 있는 경우
@@ -94,12 +94,12 @@ public class Card extends AppCompatActivity {
                 btn_next.setEnabled(true);
 
                 if (tv_answer.getText().toString().isEmpty()) {
-                    Toast.makeText(Card.this, "카드를 생성하세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReviewCard.this, "카드를 생성하세요", Toast.LENGTH_SHORT).show();
                     btn_next.setEnabled(false);
                     return;
                 }
                 if (et_answer.getText().toString().isEmpty()) {
-                    Toast.makeText(Card.this, "답을 입력하세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReviewCard.this, "답을 입력하세요", Toast.LENGTH_SHORT).show();
                     btn_next.setEnabled(false);
                     return;
                 }
@@ -117,15 +117,15 @@ public class Card extends AppCompatActivity {
                     String correctAnswer = tv_answer.getText().toString();
 
                     if (userAnswer.equals(correctAnswer)) {
-                        Toast.makeText(Card.this, "맞혔습니다!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReviewCard.this, "맞혔습니다!", Toast.LENGTH_SHORT).show();
                         dbHelper.insertQuiz(topicId, cardId, userAnswer, 1);
                     } else {
-                        Toast.makeText(Card.this, "틀렸습니다!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ReviewCard.this, "틀렸습니다!", Toast.LENGTH_SHORT).show();
                         dbHelper.insertQuiz(topicId, cardId, userAnswer, 0);
                     }
                 }
                 if (currentIndex == data.size() - 1) {
-                    Toast.makeText(Card.this, "문제를 다 풀었습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReviewCard.this, "문제를 다 풀었습니다", Toast.LENGTH_SHORT).show();
                     btn_next.setEnabled(false);
                 }
             }
@@ -134,7 +134,7 @@ public class Card extends AppCompatActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Card.this, Play_card.class);
+                Intent intent = new Intent(ReviewCard.this, Review.class);
                 startActivity(intent);
             }
         });

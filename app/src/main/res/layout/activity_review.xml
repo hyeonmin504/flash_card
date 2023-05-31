@@ -82,7 +82,7 @@
             android:layout_margin="1px"
             android:layout_weight="1"
             android:background="#C2E5C1"
-            android:text="퀴즈학습"
+            android:text="카드 생성"
             android:textSize="17dp" />
 
         <Button

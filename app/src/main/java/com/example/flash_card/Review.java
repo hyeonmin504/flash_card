@@ -22,7 +22,7 @@ public class Review extends AppCompatActivity {
     private ListView list,list2;
     List<String> data;
     List<String> data2;
-    // DatabaseHelper dbHelper; // 데이터베이스 헬퍼 클래스
+    FlashCardDBHelper dbHelper; // 데이터베이스 헬퍼 클래스
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,42 +40,44 @@ public class Review extends AppCompatActivity {
         list = (ListView)findViewById(R.id.list);
         list2 = (ListView)findViewById(R.id.list2);
 
-        // dbHelper = new DatabaseHelper(this); // 데이터베이스 헬퍼 객체 생성
+        dbHelper = new FlashCardDBHelper(this); // 데이터베이스 헬퍼 객체 생성
 
         // 데이터 리스트 초기화
         data = new ArrayList<>();
         data2 = new ArrayList<>();
 
         // 데이터베이스에서 데이터 가져오기
-        // dataList = dbHelper.getDataList(); // 데이터베이스 헬퍼 클래스에 구현된 메서드를 통해 데이터 가져오기
+        data = dbHelper.getDataListByRate();
+        data2 = dbHelper.getDataListByTime();// 데이터베이스 헬퍼 클래스에 구현된 메서드를 통해 데이터 가져오기
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data2);
-        /*if (data.isEmpty()) {
+        ArrayAdapter<String> adapter;
+        ArrayAdapter<String> adapter2;
+        if (data.isEmpty()) {
             // 데이터가 없는 경우 빈 리스트뷰 어댑터 생성
             adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         } else {
             // 데이터가 있는 경우 데이터 리스트를 어댑터에 설정
-            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dataList);
-        }*/ // db 추가시 위에 코드와 변경
-        list.setAdapter(adapter);
-        data.add("많이 틀린 주제 예시 1"); // 삭제 예정
-        data.add("많이 틀린 주제 예시 2"); // 삭제 예정
-        data.add("많이 틀린 주제 예시 3"); // 삭제 예정
-        adapter.notifyDataSetChanged();
+            adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
+        } // db 추가시 위에 코드와 변경
+        if (data2.isEmpty()) {
+            // 데이터가 없는 경우 빈 리스트뷰 어댑터 생성
+            adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
+        } else {
+            // 데이터가 있는 경우 데이터 리스트를 어댑터에 설정
+            adapter2 = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data2);
+        }
 
+        list.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
         list2.setAdapter(adapter2);
-        data2.add("오래된 주제 예시 1"); // 삭제 예정
-        data2.add("오래된 주제 예시 2"); // 삭제 예정
-        data2.add("오래된 주제 예시 3"); // 삭제 예정
-        adapter2.notifyDataSetChanged();
+        //adapter2.notifyDataSetChanged();
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = data.get(position);
                 // 선택된 항목에 대한 동작을 수행
-                Intent intent = new Intent(Review.this, Card.class);
+                Intent intent = new Intent(Review.this, ReviewCard.class);
                 intent.putExtra("selectedItem", selectedItem); // 선택된 항목 데이터를 인텐트에 추가
                 startActivity(intent);
             }
@@ -86,7 +88,7 @@ public class Review extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = data2.get(position);
                 // 선택된 항목에 대한 동작을 수행
-                Intent intent = new Intent(Review.this, Card.class);
+                Intent intent = new Intent(Review.this, ReviewCard2.class);
                 intent.putExtra("selectedItem", selectedItem); // 선택된 항목 데이터를 인텐트에 추가
                 startActivity(intent);
             }
