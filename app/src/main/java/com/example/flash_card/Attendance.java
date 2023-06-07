@@ -22,7 +22,6 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,16 +51,17 @@ public class Attendance extends AppCompatActivity {
 
         setTitle("출석 체크");
 
-        btn_madecard = (Button)findViewById(R.id.btn_madecard);
-        btn_playcard = (Button)findViewById(R.id.btn_playcard);
-        btn_review = (Button)findViewById(R.id.btn_review);
-        btn_statistics = (Button)findViewById(R.id.btn_statistics);
-        btn_attendance =(Button)findViewById(R.id.btn_attendance);
+        btn_madecard = (Button) findViewById(R.id.btn_madecard);
+        btn_playcard = (Button) findViewById(R.id.btn_playcard);
+        btn_review = (Button) findViewById(R.id.btn_review);
+        btn_statistics = (Button) findViewById(R.id.btn_statistics);
+        btn_attendance = (Button) findViewById(R.id.btn_attendance);
         btn_attend = (Button) findViewById(R.id.btn_attend);
         calView = (CalendarView) findViewById(R.id.calendarView1);
         tvYear = (TextView) findViewById(R.id.tvYear);
         tvMonth = (TextView) findViewById(R.id.tvMonth);
         tvDay = (TextView) findViewById(R.id.tvDay);
+
         attendanceListView = (ListView) findViewById(R.id.attendanceListView);
 
         Calendar calendar = Calendar.getInstance();
@@ -75,10 +75,23 @@ public class Attendance extends AppCompatActivity {
         SimpleDateFormat sdfDay = new SimpleDateFormat("dd", Locale.getDefault());
         tvDay.setText(sdfDay.format(calendar.getTime()));
 
-        // 버튼을 클릭하면 날짜,시간을 가져온다.
         btn_attend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String attendanceStatus = "출석완료"; // 출석 여부 값, 필요에 따라 동적으로 설정할 수 있음
+
+                int currentYear = calendar.get(Calendar.YEAR);
+                int currentMonth = calendar.get(Calendar.MONTH) + 1;
+                int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+                if (selectYear == 0 || selectMonth == 0 || selectDay == 0) {
+                    Toast.makeText(Attendance.this, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (selectYear != currentYear || selectMonth != currentMonth || selectDay != currentDay) {
+                    Toast.makeText(Attendance.this, "오늘 날짜만 출석할 수 있습니다.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 // 날짜 설정
                 tvYear.setText(Integer.toString(selectYear));
@@ -88,16 +101,21 @@ public class Attendance extends AppCompatActivity {
                 String selectedDate = String.format(Locale.getDefault(), "%04d-%02d-%02d", selectYear, selectMonth, selectDay);
                 Log.d("Selected Date", selectedDate);
 
-                saveAttendanceToFile(attendanceStatus);
-                Toast.makeText(Attendance.this, "출석완료", Toast.LENGTH_SHORT).show();
-
+                if (isAttendanceAlreadyExist(selectedDate)) {
+                    // 이미 해당 날짜에 출석된 경우, 중복 출석 방지 처리
+                    String message = selectedDate + " 이미 출석되었습니다.";
+                    Toast.makeText(Attendance.this, message, Toast.LENGTH_SHORT).show();
+                } else {
+                    saveAttendanceToFile(selectedDate, attendanceStatus);
+                    Toast.makeText(Attendance.this, "출석완료", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         calView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                selectYear =  year;
+                selectYear = year;
                 selectMonth = month + 1;
                 selectDay = dayOfMonth;
             }
@@ -159,27 +177,11 @@ public class Attendance extends AppCompatActivity {
         return false; // 해당 날짜에 출석한 기록이 없는 경우
     }
 
-    private void saveAttendanceToFile(String attendanceStatus) {
+    private void saveAttendanceToFile(String date, String attendanceStatus) {
         try {
             File directory = new File(getFilesDir(), directoryName);
             if (!directory.exists()) {
                 directory.mkdirs(); // 디렉토리가 없으면 생성
-            }
-
-            if (selectYear == 0 || selectMonth == 0 || selectDay == 0) {
-                Toast.makeText(this, "날짜를 선택해주세요.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            Calendar calendar = Calendar.getInstance();
-            String date = String.format(Locale.getDefault(), "%04d-%02d-%02d",
-                    selectYear, selectMonth, selectDay);
-
-            if (isAttendanceAlreadyExist(date)) {
-                // 이미 해당 날짜에 출석된 경우, 중복 출석 방지 처리
-                String message = date + " 이미 출석 되었습니다.";
-                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-                return;
             }
 
             File file = new File(directory, fileName);
@@ -201,6 +203,7 @@ public class Attendance extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
     // 저장된 출석 여부 파일을 읽어오는 메서드
     private List<String> readAttendanceFromFile() {
         List<String> attendanceList = new ArrayList<>();
@@ -219,6 +222,7 @@ public class Attendance extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         // attendanceList 로그로 출력
         for (String attendance : attendanceList) {
             Log.d("Attendance", attendance);
